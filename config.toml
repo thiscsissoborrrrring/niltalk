@@ -1,9 +1,9 @@
 [app]
 # Address to listen, use "tor" to run an hidden service.
-address = "0.0.0.0:9000"
+address = "0.0.0.0:10000"
 
 # No trailing slashes.
-root_url = "http://localhost:9000"
+root_url = "[https://sparks-learning.onrender.com](https://sparks-learning.onrender.com)"
 
 name = "Niltalk chat"
 
@@ -39,7 +39,7 @@ websocket_timeout = "3s"
 session_cookie = "niltoken"
 
 # Storage kind, one of redis|memory|fs.
-storage = "redis"
+storage = "memory"
 
 # Redis cache server.
 # Rooms are cached until they expires. Messages are not cached.
