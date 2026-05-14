@@ -1,20 +1,15 @@
-# Step 1: Build the Go binary
-FROM golang:1.21-alpine AS builder
-WORKDIR /app
-# Copy everything from your repo to the container
-COPY . .
-# Download dependencies and build
-RUN go mod download && go build -o niltalk main.go
+# Use the official pre-compiled image as the base
+FROM kailashnadh/niltalk:latest
 
-# Step 2: Create the final tiny image
-FROM alpine:latest
+# Set the working directory
 WORKDIR /app
-# Copy the built program from the builder stage
-COPY --from=builder /app/niltalk .
-# Copy the static files (templates/css) and your config
-COPY --from=builder /app/static ./static
-COPY config.toml ./config.toml
 
-# Set the port and run it
+# Copy your custom config from your GitHub repo into the container
+# The official image expects the config at /static/config.toml
+COPY config.toml /static/config.toml
+
+# Use the port Render expects
 EXPOSE 10000
-ENTRYPOINT [ "./niltalk", "--config", "config.toml" ]
+
+# Run Niltalk pointing to that config
+CMD ["/app/niltalk", "--config", "/static/config.toml"]
